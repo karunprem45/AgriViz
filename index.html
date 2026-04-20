@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriViz DSS — Smart Agriculture Decision Support System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="research-navbar">
+    <div class="container">
+      <a href="index.html" class="research-nav-brand">AgriViz<span>DSS</span></a>
+      <div class="research-nav-links" id="navLinks">
+        <a href="index.html" class="active">Application</a>
+        <a href="about.html">Research</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="app-hero">
+    <div class="app-hero-badge">AI-Powered Agriculture Intelligence</div>
+    <h1>Smart Agriculture Decision Support System</h1>
+    <p>Three integrated AI modules that translate complex agricultural data into visual insights farmers can act on instantly.</p>
+    <a href="#application" class="app-hero-cta">
+      Open Dashboard
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+    <div class="app-stats">
+      <div class="app-stat">
+        <div class="app-stat-value">22</div>
+        <div class="app-stat-label">Crop Types</div>
+      </div>
+      <div class="app-stat">
+        <div class="app-stat-value">38</div>
+        <div class="app-stat-label">Disease Classes</div>
+      </div>
+      <div class="app-stat">
+        <div class="app-stat-value">2,200</div>
+        <div class="app-stat-label">Records</div>
+      </div>
+      <div class="app-stat">
+        <div class="app-stat-value">14</div>
+        <div class="app-stat-label">Crop Species</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="app-divider">
+
+  <!-- Application -->
+  <section class="app-section" id="application">
+    <div class="container">
+      <div class="app-section-header">
+        <h2>Dashboard</h2>
+        <p>Select a module to begin. All processing runs locally in your browser.</p>
+      </div>
+
+      <div class="app-tabs-wrapper">
+        <div class="app-tabs">
+          <button class="app-tab-btn active" data-tab="disease">Disease Detection</button>
+          <button class="app-tab-btn" data-tab="soil">Soil Analysis</button>
+          <button class="app-tab-btn" data-tab="crop">Crop Recommendation</button>
+        </div>
+      </div>
+
+      <!-- Disease Detection -->
+      <div class="tab-content active" id="tab-disease">
+        <div class="module-layout">
+          <div class="module-panel">
+            <h3>Upload Leaf Image</h3>
+            <div class="upload-area" id="uploadArea">
+              <div class="upload-icon">&#9651;</div>
+              <div class="upload-text">Drop an image here or <strong>browse files</strong></div>
+              <input type="file" id="imageUpload" accept="image/*" style="display:none">
+            </div>
+            <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:0.5rem;">Sample images</div>
+            <div class="sample-grid" id="sampleGrid"></div>
+            <div class="model-status" id="modelStatus">
+              <div class="model-status-dot loading" id="modelDot"></div>
+              <span id="modelText">Loading MobileNet CNN...</span>
+            </div>
+          </div>
+          <div class="module-result" id="diseaseResult">
+            <div class="placeholder-state">
+              <div class="placeholder-icon">&#127807;</div>
+              <p class="placeholder-text">Upload or select a leaf image to run disease detection.<br>MobileNet CNN processes images directly in your browser.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soil Analysis -->
+      <div class="tab-content" id="tab-soil">
+        <div class="module-layout">
+          <div class="module-panel">
+            <h3>Soil Readings</h3>
+            <div class="form-group">
+              <label class="form-label">Target Crop</label>
+              <select class="form-select" id="soilCrop"><option value="">Select crop</option></select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Nitrogen (N) mg/kg</label>
+                <input type="number" class="form-input" id="soilN" placeholder="80">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phosphorus (P) mg/kg</label>
+                <input type="number" class="form-input" id="soilP" placeholder="48">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Potassium (K) mg/kg</label>
+                <input type="number" class="form-input" id="soilK" placeholder="40">
+              </div>
+              <div class="form-group">
+                <label class="form-label">pH Level</label>
+                <input type="number" class="form-input" id="soilPH" step="0.1" placeholder="6.5">
+              </div>
+            </div>
+            <button class="btn-saas" id="analyzeSoilBtn">Analyze Soil</button>
+          </div>
+          <div class="module-result" id="soilResult">
+            <div class="placeholder-state">
+              <div class="placeholder-icon">&#127793;</div>
+              <p class="placeholder-text">Enter soil readings and select a crop to see<br>color-coded nutrient status against optimal thresholds.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Crop Recommendation -->
+      <div class="tab-content" id="tab-crop">
+        <div class="module-layout">
+          <div class="module-panel">
+            <h3>Field Conditions</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Nitrogen (N) mg/kg</label>
+                <input type="number" class="form-input" id="cropN" placeholder="80">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phosphorus (P) mg/kg</label>
+                <input type="number" class="form-input" id="cropP" placeholder="48">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Potassium (K) mg/kg</label>
+                <input type="number" class="form-input" id="cropK" placeholder="40">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Temperature &deg;C</label>
+                <input type="number" class="form-input" id="cropTemp" step="0.1" placeholder="25">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Humidity %</label>
+                <input type="number" class="form-input" id="cropHumid" step="0.1" placeholder="80">
+              </div>
+              <div class="form-group">
+                <label class="form-label">pH Level</label>
+                <input type="number" class="form-input" id="cropPH" step="0.1" placeholder="6.5">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Rainfall mm</label>
+              <input type="number" class="form-input" id="cropRain" step="0.1" placeholder="200">
+            </div>
+            <button class="btn-saas" id="recommendBtn">Get Recommendations</button>
+          </div>
+          <div class="module-result" id="cropResult">
+            <div class="placeholder-state">
+              <div class="placeholder-icon">&#127806;</div>
+              <p class="placeholder-text">Enter field conditions to receive<br>ranked crop recommendations with comparison charts.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="app-divider">
+
+  <!-- Visualizations -->
+  <section class="app-section" id="visualizations">
+    <div class="container">
+      <div class="app-section-header">
+        <h2>Dataset Visualizations</h2>
+        <p>Interactive charts generated from the crop recommendation dataset. Hover for details.</p>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-title">NPK Nutrient Profile Across Key Crops</div>
+        <div class="chart-subtitle">Average Nitrogen, Phosphorus, and Potassium values per crop type (mg/kg)</div>
+        <div class="chart-canvas-wrapper"><canvas id="npkChart" height="370"></canvas></div>
+        <div class="chart-caption"><strong>Figure 1.</strong> Cotton exhibits the highest nitrogen requirement (~118 mg/kg). Apple demonstrates exceptionally high potassium values (>200 mg/kg). Chickpea shows balanced NPK ratios consistent with nitrogen-fixing legume characteristics.</div>
+      </div>
+
+      <div class="chart-row">
+        <div class="chart-container">
+          <div class="chart-title">Feature Correlation Heatmap</div>
+          <div class="chart-subtitle">Pearson coefficients between 7 agronomic features</div>
+          <div class="chart-canvas-wrapper"><canvas id="heatmapChart" height="440"></canvas></div>
+          <div class="chart-caption"><strong>Figure 2.</strong> Strong P-K co-occurrence (r = 0.74) and N-P independence (r = -0.23). Humidity-Rainfall near-zero correlation (r = 0.09) confirms statistical independence.</div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Temperature vs. Rainfall by Category</div>
+          <div class="chart-subtitle">Agro-climatic clustering across crop records</div>
+          <div class="chart-canvas-wrapper"><canvas id="scatterChart" height="440"></canvas></div>
+          <div class="chart-caption"><strong>Figure 3.</strong> Cereals concentrate at 20-28&deg;C with high rainfall. Fruits span the widest range (10-44&deg;C). Legumes cluster in moderate rainfall regimes.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="app-footer-content">
+      <div>
+        <div class="app-footer-brand">AgriViz DSS</div>
+        <p>Data Visualization-Driven Decision Support for Smart Agriculture</p>
+        <p>Karuniya Premnath &mdash; Northeastern University &mdash; EECE 5642 &mdash; April 2026</p>
+      </div>
+      <div class="app-footer-links">
+        <a href="index.html">Application</a>
+        <a href="about.html">Research</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="chart-tooltip" id="chartTooltip"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.17.0/dist/tf.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

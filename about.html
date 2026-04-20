@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Smart Agriculture DSS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="research-navbar">
+    <div class="container">
+      <a href="index.html" class="research-nav-brand">AgriViz<span>DSS</span></a>
+      <div class="research-nav-links" id="navLinks">
+        <a href="index.html">Application</a>
+        <a href="about.html" class="active">Research</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Paper Header -->
+  <header class="research-header">
+    <h1>A Data Visualization-Driven Decision Support System for Smart Agriculture</h1>
+    <p class="author">Karuniya Premnath</p>
+    <p class="affiliation">Khoury College of Computer Sciences, Northeastern University, Boston, Massachusetts</p>
+    <div class="course-tag">EECE 5642 &mdash; Data Visualization &mdash; April 2026</div>
+  </header>
+
+  <div class="research-content">
+
+    <!-- 1. Project Overview -->
+    <section class="research-section" id="overview">
+      <h2><span class="section-number">1.</span> Project Overview</h2>
+
+      <p>This project presents a Data Visualization-Driven Decision Support System for Smart Agriculture &mdash; an Android-based platform that integrates artificial intelligence with targeted visual interfaces to empower non-technical farmers with actionable agricultural insights. The system addresses a critical gap in existing precision agriculture tools: while machine learning models for crop disease detection and recommendation have matured significantly, the final step of translating model outputs into comprehensible, farmer-ready visualizations has been largely neglected.</p>
+
+      <p>The system comprises three integrated modules: a CNN-based Disease Detection module that renders results as annotated overlay images; a Soil Analysis module that visualizes pH, nitrogen, phosphorus, and potassium readings as color-coded bar charts and trend graphs; and an XGBoost-based Crop Recommendation module trained on 2,200 records across 22 crop types, presenting recommendations as multi-crop visual comparison charts.</p>
+
+      <h3><span class="subsection-number">1.1</span> Problem Statement</h3>
+      <p>Modern agriculture generates vast quantities of data from soil sensors, satellite imagery, weather station feeds, and drone surveys. Despite this abundance of information, the majority of smallholder farmers worldwide continue to rely primarily on manual observation and experiential judgment for critical decisions about planting, irrigation, fertilization, and disease management. Existing agricultural AI platforms predominantly optimize for predictive model accuracy while neglecting the most critical step: translating outputs into insights immediately understandable by non-technical users.</p>
+
+      <h3><span class="subsection-number">1.2</span> Solution Approach</h3>
+      <p>The central novelty is a <strong>visualization-first architecture</strong> &mdash; a design philosophy that treats the visualization layer as a first-class engineering concern rather than an afterthought. Every AI output is explicitly designed for non-technical comprehension, shifting the value proposition from algorithmic accuracy to human usability.</p>
+
+      <table class="ieee-table">
+        <caption>Table 1. System Summary</caption>
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Dataset (Crop Recommendation)</td><td>2,200 records, 22 crop types, 7 features (Ingle, 2020)</td></tr>
+          <tr><td>Dataset (Disease Detection)</td><td>87,867 images, 38 classes, 14 species (Hughes &amp; Salath&eacute;, 2015)</td></tr>
+          <tr><td>CNN Architecture</td><td>MobileNet v1, transfer learning from ImageNet</td></tr>
+          <tr><td>Recommendation Model</td><td>XGBoost gradient-boosted classifier</td></tr>
+          <tr><td>Platform</td><td>Android Studio + Firebase Realtime Database</td></tr>
+          <tr><td>Target Audience</td><td>Non-technical smallholder farmers, agricultural advisors</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 2. System Architecture -->
+    <section class="research-section" id="architecture">
+      <h2><span class="section-number">2.</span> System Architecture</h2>
+
+      <p>The system follows a four-layer architecture pattern separating concerns across data ingestion, AI processing, real-time storage, and visual presentation. This separation enables independent module development while maintaining a unified user experience through the Android frontend.</p>
+
+      <div class="research-diagram">
+        <div class="arch-layer">
+          <div class="arch-layer-tag">Presentation Layer</div>
+          <div class="arch-layer-content">
+            <div class="arch-box">Android Application<div class="arch-tooltip"><strong>Android Studio.</strong> Native mobile interface for field-usable access to all visualization modules. Chosen for offline capability and camera integration.</div></div>
+            <div class="arch-box">Disease Detection UI<div class="arch-tooltip"><strong>Annotated Overlay.</strong> CNN results rendered as colored overlays on original leaf images with disease label and confidence indicator.</div></div>
+            <div class="arch-box">Soil Analysis UI<div class="arch-tooltip"><strong>Color-Coded Charts.</strong> NPK/pH values as bars against crop thresholds. Green = optimal, Orange = deficient, Red = excess.</div></div>
+            <div class="arch-box">Crop Recommendation UI<div class="arch-tooltip"><strong>Comparison Charts.</strong> Multi-crop visual comparison of farmer's values vs. ideal crop profiles.</div></div>
+          </div>
+        </div>
+        <div class="arch-arrow">&#9660; &#9660; &#9660;</div>
+        <div class="arch-layer">
+          <div class="arch-layer-tag">Storage Layer</div>
+          <div class="arch-layer-content">
+            <div class="arch-box">Firebase Realtime Database<div class="arch-tooltip"><strong>Real-time Sync.</strong> Low-latency bidirectional synchronization. Supports live chart updates and offline persistence.</div></div>
+            <div class="arch-box">Session History<div class="arch-tooltip"><strong>Trend Tracking.</strong> Successive soil readings stored for trend visualization across growing seasons.</div></div>
+          </div>
+        </div>
+        <div class="arch-arrow">&#9660; &#9660; &#9660;</div>
+        <div class="arch-layer">
+          <div class="arch-layer-tag">Processing Layer</div>
+          <div class="arch-layer-content">
+            <div class="arch-box">CNN Pipeline (MobileNet)<div class="arch-tooltip"><strong>Disease Classification.</strong> Transfer learning model. Preprocessing (224x224, normalize) + inference + overlay generation.</div></div>
+            <div class="arch-box">XGBoost Classifier<div class="arch-tooltip"><strong>Crop Ranking.</strong> Gradient-boosted ensemble on 7-feature input. Ranks 22 crop types by suitability.</div></div>
+            <div class="arch-box">Threshold Engine<div class="arch-tooltip"><strong>Soil Status.</strong> Rule-based comparison against crop-specific optimal ranges. Outputs status codes.</div></div>
+          </div>
+        </div>
+        <div class="arch-arrow">&#9660; &#9660; &#9660;</div>
+        <div class="arch-layer">
+          <div class="arch-layer-tag">Data Layer</div>
+          <div class="arch-layer-content">
+            <div class="arch-box">PlantVillage<div class="arch-tooltip"><strong>Disease Images.</strong> Hughes &amp; Salath&eacute; (2015). 87,867 images, 38 classes, 14 crop species.</div></div>
+            <div class="arch-box">Kaggle Dataset<div class="arch-tooltip"><strong>Crop Data.</strong> Ingle (2020). 2,200 records, 22 crops, balanced at 100 records/class.</div></div>
+            <div class="arch-box">OpenWeatherMap<div class="arch-tooltip"><strong>Weather API.</strong> Real-time temperature, humidity, rainfall by location.</div></div>
+            <div class="arch-box">IoT Sensors<div class="arch-tooltip"><strong>Future.</strong> Planned real-time soil sensor integration via Firebase.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Technology Stack -->
+    <section class="research-section" id="tech-stack">
+      <h2><span class="section-number">3.</span> Technology Stack</h2>
+
+      <p>Each technology was selected based on specific requirements of the deployment context. The following table provides the rationale for each selection.</p>
+
+      <table class="ieee-table">
+        <caption>Table 2. Tools and Technologies Used</caption>
+        <thead><tr><th>Technology</th><th>Role</th><th>Selection Rationale</th></tr></thead>
+        <tbody>
+          <tr><td>TensorFlow / Keras</td><td>CNN training</td><td>Industry standard for deep learning. Supports transfer learning and TF.js conversion for browser inference.</td></tr>
+          <tr><td>MobileNet v1</td><td>CNN architecture</td><td>Lightweight (depthwise separable convolutions). 8-9x computation reduction vs. VGG/ResNet. Designed for mobile.</td></tr>
+          <tr><td>XGBoost</td><td>Crop recommendation</td><td>Superior performance on structured tabular data. Sequential error correction outperforms Random Forest.</td></tr>
+          <tr><td>Firebase</td><td>Real-time database</td><td>Low-latency bidirectional sync. No custom server required. Offline persistence support.</td></tr>
+          <tr><td>Android Studio</td><td>Mobile UI</td><td>Native camera integration. Offline-capable. Field-deployable on commodity hardware.</td></tr>
+          <tr><td>TensorFlow.js</td><td>Browser inference</td><td>Client-side CNN inference. No server required. Converted from Keras .h5 via tensorflowjs_converter.</td></tr>
+          <tr><td>Matplotlib / Seaborn</td><td>Data visualization</td><td>Statistical plotting. Seaborn heatmaps and distribution plots built on Matplotlib.</td></tr>
+          <tr><td>OpenCV</td><td>Image processing</td><td>Preprocessing, color space conversion, annotated overlay generation.</td></tr>
+          <tr><td>Scikit-learn</td><td>ML utilities</td><td>Preprocessing pipelines, label encoding, train/test splitting, evaluation metrics.</td></tr>
+          <tr><td>OpenWeatherMap</td><td>Weather API</td><td>Free-tier real-time weather data by location. Feeds recommendation feature vector.</td></tr>
+          <tr><td>Google Colab</td><td>Training environment</td><td>Cloud GPU access for CNN training without local hardware requirements.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 4. Workflow Pipeline -->
+    <section class="research-section" id="workflow">
+      <h2><span class="section-number">4.</span> Workflow Pipeline</h2>
+
+      <p>Each module follows an independent processing pipeline from data ingestion through AI inference to visual output. The three pipelines share the Firebase storage layer for session persistence and real-time synchronization.</p>
+
+      <div class="pipeline">
+        <div class="pipeline-label">Disease Detection Pipeline</div>
+        <div class="pipeline-steps">
+          <div class="pipeline-step">Leaf Image Capture</div>
+          <div class="pipeline-step">Resize (224x224)</div>
+          <div class="pipeline-step">Normalize (0-1)</div>
+          <div class="pipeline-step">MobileNet Inference</div>
+          <div class="pipeline-step">Softmax Output</div>
+          <div class="pipeline-step">Annotated Overlay</div>
+          <div class="pipeline-step">Result Display</div>
+        </div>
+      </div>
+      <div class="pipeline">
+        <div class="pipeline-label">Soil Analysis Pipeline</div>
+        <div class="pipeline-steps">
+          <div class="pipeline-step">Manual / IoT Input</div>
+          <div class="pipeline-step">Firebase Sync</div>
+          <div class="pipeline-step">Threshold Compare</div>
+          <div class="pipeline-step">Status Classify</div>
+          <div class="pipeline-step">Color-Coded Bars</div>
+          <div class="pipeline-step">Trend Graph</div>
+          <div class="pipeline-step">Result Display</div>
+        </div>
+      </div>
+      <div class="pipeline">
+        <div class="pipeline-label">Crop Recommendation Pipeline</div>
+        <div class="pipeline-steps">
+          <div class="pipeline-step">Soil + Weather Input</div>
+          <div class="pipeline-step">Feature Vector [7]</div>
+          <div class="pipeline-step">XGBoost Ranking</div>
+          <div class="pipeline-step">Top Crops</div>
+          <div class="pipeline-step">Comparison Chart</div>
+          <div class="pipeline-step">Result Display</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Model Explanation -->
+    <section class="research-section" id="models">
+      <h2><span class="section-number">5.</span> Model Architecture and Training</h2>
+
+      <!-- 5.1 MobileNet CNN -->
+      <h3><span class="subsection-number">5.1</span> Disease Detection &mdash; MobileNet CNN</h3>
+
+      <p>The disease detection module employs MobileNet v1 (Howard et al., 2017) with transfer learning from ImageNet. MobileNet is a lightweight convolutional neural network that replaces standard convolutions with depthwise separable convolutions, reducing computation by approximately 8-9x while maintaining comparable accuracy. This architectural choice is critical for the deployment target: real-time browser-based inference without server infrastructure.</p>
+
+      <p><strong>Transfer Learning.</strong> Rather than training from scratch, the pre-trained ImageNet weights (14 million images, 1,000 classes) provide sophisticated feature extraction capabilities. The base layers are frozen and a custom classification head is appended for the 38-class plant disease task. This approach requires significantly less training data and computation while achieving high accuracy.</p>
+
+      <div class="model-flow">
+        <div class="model-block frozen">
+          <div class="model-block-label frozen">Frozen &mdash; Pre-trained Weights</div>
+          <strong>MobileNet Base (ImageNet)</strong><br>
+          <span style="font-size:0.82rem; color:var(--r-text-secondary);">14M images, 1,000 classes. Depthwise separable convolution layers.<br>Feature extraction: edges, textures, shapes, spatial patterns.</span>
+        </div>
+        <div class="model-arrow">&#9660;</div>
+        <div class="model-block trainable">
+          <div class="model-block-label trainable">Trainable &mdash; Custom Classification Head</div>
+          <strong>GlobalAveragePooling2D &rarr; Dropout(0.2) &rarr; Dense(38, softmax)</strong><br>
+          <span style="font-size:0.82rem; color:var(--r-text-secondary);">Spatial compression &rarr; regularization (20% dropout) &rarr; 38-class probability vector.</span>
+        </div>
+      </div>
+
+      <table class="ieee-table">
+        <caption>Table 3. CNN Training Configuration and Results</caption>
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Architecture</td><td>MobileNet v1 (depthwise separable CNN)</td></tr>
+          <tr><td>Pre-trained weights</td><td>ImageNet (14M images, 1,000 classes)</td></tr>
+          <tr><td>Input shape</td><td>224 &times; 224 &times; 3 (RGB)</td></tr>
+          <tr><td>Output</td><td>38-class probability vector (softmax)</td></tr>
+          <tr><td>Training images</td><td>70,295 (PlantVillage augmented)</td></tr>
+          <tr><td>Validation images</td><td>17,572</td></tr>
+          <tr><td>Augmentation</td><td>Shear (0.2), zoom (0.2), width/height shift (0.2), rescale (1/255)</td></tr>
+          <tr><td>Optimizer</td><td>Adam (adaptive learning rate)</td></tr>
+          <tr><td>Loss function</td><td>Categorical cross-entropy</td></tr>
+          <tr><td>Epochs</td><td>6 (EarlyStopping, patience=2)</td></tr>
+          <tr><td>Callbacks</td><td>ModelCheckpoint, EarlyStopping, ReduceLROnPlateau</td></tr>
+          <tr><td>Validation accuracy</td><td>85.29%</td></tr>
+          <tr><td>Model size (TF.js)</td><td>~13 MB (4 weight shards + model.json)</td></tr>
+          <tr><td>Inference environment</td><td>Client-side browser via TensorFlow.js</td></tr>
+        </tbody>
+      </table>
+
+      <!-- 5.2 XGBoost -->
+      <h3 style="margin-top:2rem;"><span class="subsection-number">5.2</span> Crop Recommendation &mdash; XGBoost</h3>
+
+      <p>The crop recommendation module employs XGBoost (Chen &amp; Guestrin, 2016), a gradient-boosted decision tree ensemble. Unlike Random Forest, which builds trees independently and averages predictions, XGBoost trains each tree sequentially to correct the residual errors of the previous ensemble. This iterative error-correction mechanism, combined with L1/L2 regularization, produces highly accurate predictions on structured tabular data.</p>
+
+      <p><strong>Selection rationale.</strong> XGBoost was selected over alternatives based on the dataset characteristics: (1) vs. Random Forest &mdash; sequential boosting outperforms independent averaging when feature interactions are complex; (2) vs. Neural Networks &mdash; 7 features and 2,200 records do not benefit from deep representation learning; (3) vs. SVM &mdash; XGBoost handles multi-class natively and provides feature importance rankings.</p>
+
+      <div class="model-flow">
+        <div class="model-block trainable">
+          <div class="model-block-label trainable">Input</div>
+          <strong>Feature Vector [N, P, K, Temperature, Humidity, pH, Rainfall]</strong>
+        </div>
+        <div class="model-arrow">&#9660;</div>
+        <div class="model-block frozen">
+          <div class="model-block-label frozen">Sequential Boosting</div>
+          <strong>Tree<sub>1</sub> &rarr; Tree<sub>2</sub> &rarr; ... &rarr; Tree<sub>N</sub></strong><br>
+          <span style="font-size:0.82rem; color:var(--r-text-secondary);">Each tree corrects residual errors from the previous ensemble.<br>Gradient descent minimizes loss at each iteration.</span>
+        </div>
+        <div class="model-arrow">&#9660;</div>
+        <div class="model-block trainable">
+          <div class="model-block-label trainable">Output</div>
+          <strong>Ranked crop suitability scores (22 classes)</strong>
+        </div>
+      </div>
+
+      <table class="ieee-table">
+        <caption>Table 4. Crop Recommendation Model Details</caption>
+        <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Algorithm</td><td>XGBoost gradient-boosted classifier</td></tr>
+          <tr><td>Dataset</td><td>2,200 records, 22 crop types (Ingle, 2020)</td></tr>
+          <tr><td>Class balance</td><td>100 records per class &mdash; perfectly balanced</td></tr>
+          <tr><td>Features</td><td>N, P, K, Temperature, Humidity, pH, Rainfall (7 continuous)</td></tr>
+          <tr><td>Output</td><td>Ranked crop recommendations with visual comparison</td></tr>
+        </tbody>
+      </table>
+
+      <!-- 5.3 Soil Analysis -->
+      <h3 style="margin-top:2rem;"><span class="subsection-number">5.3</span> Soil Analysis &mdash; Threshold Engine</h3>
+
+      <p>The soil analysis module applies agronomic domain knowledge through a rule-based threshold comparison engine rather than machine learning. Each crop has established optimal ranges for N, P, K, and pH derived from the dataset. The farmer's measured values are compared against these thresholds to classify nutrient status.</p>
+
+      <p><strong>Status classification logic:</strong> Optimal (green) when value falls within 70-130% of the crop's ideal level; Deficient (orange) when below 70%; Excess (red) when above 130%. Results are rendered as comparative bar charts with color-coded status indicators, eliminating the need for the farmer to interpret raw numeric values.</p>
+    </section>
+
+    <!-- 6. Dataset Analysis -->
+    <section class="research-section" id="dataset">
+      <h2><span class="section-number">6.</span> Dataset Analysis and Findings</h2>
+
+      <table class="ieee-table">
+        <caption>Table 5. Dataset Feature Descriptions</caption>
+        <thead><tr><th>Feature</th><th>Type</th><th>Unit</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>N (Nitrogen)</td><td>Continuous</td><td>mg/kg</td><td>Soil nitrogen content; critical for leaf growth and chlorophyll</td></tr>
+          <tr><td>P (Phosphorus)</td><td>Continuous</td><td>mg/kg</td><td>Essential for root development and energy transfer</td></tr>
+          <tr><td>K (Potassium)</td><td>Continuous</td><td>mg/kg</td><td>Vital for fruit quality, disease resistance, water regulation</td></tr>
+          <tr><td>Temperature</td><td>Continuous</td><td>&deg;C</td><td>Average ambient temperature during growing season</td></tr>
+          <tr><td>Humidity</td><td>Continuous</td><td>%</td><td>Relative humidity percentage</td></tr>
+          <tr><td>pH</td><td>Continuous</td><td>&mdash;</td><td>Soil acidity/alkalinity (0-14 scale)</td></tr>
+          <tr><td>Rainfall</td><td>Continuous</td><td>mm</td><td>Average rainfall during growing season</td></tr>
+          <tr><td>Label</td><td>Categorical</td><td>&mdash;</td><td>Crop type (22 classes, 100 records each)</td></tr>
+        </tbody>
+      </table>
+
+      <h3><span class="subsection-number">6.1</span> Key Statistical Findings</h3>
+
+      <p><strong>P-K Correlation (r = 0.74).</strong> The strongest feature correlation observed. Soils with elevated phosphorus consistently contain higher potassium concentrations, a pattern with practical implications for joint fertilization planning. The co-occurrence is explained by similar mineral weathering processes releasing both nutrients simultaneously.</p>
+
+      <p><strong>Nitrogen Independence (r = &minus;0.23 with P, r = &minus;0.14 with K).</strong> High-nitrogen environments present fundamentally distinct soil profiles from high-PK environments, justifying separate treatment in both the recommendation model and soil analysis visualization.</p>
+
+      <p><strong>Humidity-Rainfall Independence (r = 0.09).</strong> The near-zero correlation confirms statistical independence between these features, justifying inclusion of both as separate model inputs. Humidity reflects instantaneous atmospheric moisture, while rainfall measures cumulative precipitation over time.</p>
+
+      <p><strong>Agro-climatic Clustering.</strong> Temperature-rainfall scatter analysis reveals four distinct clusters corresponding to crop categories: Cereals (20-28&deg;C, &gt;175mm rainfall), Fruits (10-44&deg;C, widest range), Legumes (50-150mm moderate rainfall), and Cash Crops (22-30&deg;C central band). These clusters correspond to the XGBoost model's learned decision boundaries.</p>
+    </section>
+
+    <!-- 7. Novelty -->
+    <section class="research-section" id="novelty">
+      <h2><span class="section-number">7.</span> Novelty of the Work</h2>
+
+      <p>The defining novelty is the visualization-first architecture: a design philosophy treating the visualization layer as a first-class engineering concern. This contrasts with existing platforms that optimize for prediction accuracy while treating visual output as secondary.</p>
+
+      <table class="ieee-table">
+        <caption>Table 6. Comparison with Existing Agricultural AI Systems</caption>
+        <thead><tr><th>Dimension</th><th>Existing Systems</th><th>This System</th></tr></thead>
+        <tbody>
+          <tr><td>Primary focus</td><td>Prediction accuracy</td><td>Actionable visual insight</td></tr>
+          <tr><td>Target user</td><td>Data scientists, agronomists</td><td>Non-technical smallholder farmers</td></tr>
+          <tr><td>Output format</td><td>Raw labels, probability scores</td><td>Charts, annotated images, color-coded dashboards</td></tr>
+          <tr><td>Delivery platform</td><td>Web-only / desktop tools</td><td>Android mobile &mdash; field-usable</td></tr>
+          <tr><td>Module scope</td><td>Single-problem tools</td><td>Unified Disease + Soil + Crop platform</td></tr>
+          <tr><td>Real-time capability</td><td>Batch processing</td><td>Firebase-backed real-time synchronization</td></tr>
+        </tbody>
+      </table>
+
+      <p>The overarching design principle is: <strong>Accuracy + Simplicity = Usability</strong>. Numbers become color codes, probability scores become annotated images, data tables become side-by-side comparison charts. Every visualization is optimized for both correctness and immediate interpretability by users with limited technical background.</p>
+    </section>
+
+    <!-- 8. Use Cases -->
+    <section class="research-section" id="use-cases">
+      <h2><span class="section-number">8.</span> Use Cases</h2>
+
+      <div class="usecase-card">
+        <div class="usecase-scenario">UC-1: Field Disease Identification</div>
+        <div class="usecase-response">A farmer photographs a symptomatic tomato leaf. The CNN detects Late Blight at 91% confidence, overlays the affected region, and provides treatment recommendations &mdash; within seconds on a mobile device.</div>
+        <div class="usecase-module">Disease Detection Module</div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-scenario">UC-2: Pre-planting Soil Assessment</div>
+        <div class="usecase-response">A farmer enters NPK and pH readings for a cotton field. The system renders color-coded bars: nitrogen optimal (green), potassium excess (red). Immediate visual feedback eliminates numerical interpretation.</div>
+        <div class="usecase-module">Soil Analysis Module</div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-scenario">UC-3: Crop Selection for New Land</div>
+        <div class="usecase-response">A first-time farmer inputs soil and weather conditions. The system ranks 22 crops by suitability with side-by-side comparison charts showing feature-level alignment between actual and ideal conditions.</div>
+        <div class="usecase-module">Crop Recommendation Module</div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-scenario">UC-4: Multi-farm Remote Advisory</div>
+        <div class="usecase-response">An agricultural advisor monitors soil trends from connected farms via Firebase sync. Nutrient trajectory graphs enable seasonal health tracking without on-site visits.</div>
+        <div class="usecase-module">All Modules (Firebase)</div>
+      </div>
+      <div class="usecase-card">
+        <div class="usecase-scenario">UC-5: Regional Agro-climatic Research</div>
+        <div class="usecase-response">A researcher uses dataset visualizations to analyze NPK profiles, correlation structures, and temperature-rainfall clustering patterns across 22 crop types for publication and policy recommendations.</div>
+        <div class="usecase-module">Dataset Visualizations</div>
+      </div>
+    </section>
+
+    <!-- 9. FAQ -->
+    <section class="research-section" id="faq">
+      <h2><span class="section-number">9.</span> Frequently Asked Questions</h2>
+
+      <div class="faq-columns">
+        <div>
+          <h3>General Audience</h3>
+          <div class="faq-item"><div class="faq-question">What does this application do?</div><div class="faq-answer"><p>It helps farmers identify crop diseases from leaf photos, assess soil nutrient health, and determine which crops best suit their land &mdash; all through visual charts and annotated images rather than raw data.</p></div></div>
+          <div class="faq-item"><div class="faq-question">Is technical knowledge required?</div><div class="faq-answer"><p>No. Results use color-coded indicators (green/orange/red) and annotated images. The system is designed specifically for users without technical or data science backgrounds.</p></div></div>
+          <div class="faq-item"><div class="faq-question">How accurate is the disease detection?</div><div class="faq-answer"><p>The CNN achieves 85.29% validation accuracy across 38 disease classes. Performance varies by disease type and image quality. Best results come from clear, well-lit photographs of individual leaves.</p></div></div>
+          <div class="faq-item"><div class="faq-question">What crops are supported?</div><div class="faq-answer"><p>Disease detection covers 14 crop species (38 conditions). Crop recommendation supports 22 types including rice, wheat, cotton, apple, mango, banana, coffee, and various legumes.</p></div></div>
+          <div class="faq-item"><div class="faq-question">Can it work without internet?</div><div class="faq-answer"><p>Disease detection runs locally (model loaded in browser/device). Soil analysis uses stored thresholds. Firebase synchronization occurs when connectivity is available.</p></div></div>
+          <div class="faq-item"><div class="faq-question">Is farm data private?</div><div class="faq-answer"><p>Disease detection runs entirely client-side &mdash; images never leave your device. Soil data in Firebase is account-associated and not shared with third parties.</p></div></div>
+          <div class="faq-item"><div class="faq-question">How does crop recommendation work?</div><div class="faq-answer"><p>The system compares your soil nutrients and weather conditions against optimal profiles for 22 crops, ranks the best matches, and shows visual comparisons so you can see exactly why each crop was recommended.</p></div></div>
+        </div>
+        <div>
+          <h3>Research / Technical Audience</h3>
+          <div class="faq-item"><div class="faq-question">What CNN architecture is used and why?</div><div class="faq-answer"><p>MobileNet v1 with ImageNet transfer learning. Depthwise separable convolutions reduce computation ~8-9x, enabling real-time browser inference (~13 MB model) without server infrastructure &mdash; essential for the mobile-first target.</p></div></div>
+          <div class="faq-item"><div class="faq-question">Why XGBoost over Random Forest?</div><div class="faq-answer"><p>Sequential error correction outperforms independent averaging on this 7-feature dataset. XGBoost handles feature interactions natively, includes built-in regularization (L1/L2), and provides interpretable feature importance rankings.</p></div></div>
+          <div class="faq-item"><div class="faq-question">How was class imbalance addressed?</div><div class="faq-answer"><p>The crop dataset is perfectly balanced: 100 records per class (22 classes, 2,200 total). No resampling, SMOTE, or class weighting was required, eliminating prediction bias.</p></div></div>
+          <div class="faq-item"><div class="faq-question">What is the feature correlation structure?</div><div class="faq-answer"><p>Pearson analysis: P-K r=0.74 (strong positive), N-P r=&minus;0.23 (negative), Humidity-Rainfall r=0.09 (independent). P-K correlation suggests potential dimensionality reduction, though both are retained for agronomic interpretability.</p></div></div>
+          <div class="faq-item"><div class="faq-question">How does visualization integrate with inference?</div><div class="faq-answer"><p>Each module has a dedicated visualization template. CNN outputs &rarr; annotated overlays. XGBoost scores &rarr; comparison charts. Threshold results &rarr; color-coded bars. Visualization is a first-class component, not post-hoc.</p></div></div>
+          <div class="faq-item"><div class="faq-question">What evaluation metrics were used?</div><div class="faq-answer"><p>CNN: 85.29% validation accuracy on 17,572 images, monitored via loss curves with EarlyStopping. XGBoost: standard multi-class classification metrics on the balanced 22-class dataset.</p></div></div>
+          <div class="faq-item"><div class="faq-question">What augmentation strategies were applied?</div><div class="faq-answer"><p>Training augmentation: shear (0.2), zoom (0.2), width/height shift (0.2), rescale (1/255). These simulate real-world variance in field photography: angles, distances, and lighting.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Challenges and Future Work -->
+    <section class="research-section" id="challenges">
+      <h2><span class="section-number">10.</span> Challenges, Solutions, and Future Work</h2>
+
+      <div class="research-two-col">
+        <div>
+          <h3><span class="subsection-number">10.1</span> Challenges and Solutions</h3>
+          <table class="challenges-table">
+            <thead><tr><th>Challenge</th><th>Solution</th></tr></thead>
+            <tbody>
+              <tr><td>AI outputs incomprehensible to farmers</td><td>Module-specific visualization templates (overlays, color-coded bars) replacing raw scores</td></tr>
+              <tr><td>Real-time mobile data delivery</td><td>Firebase Realtime Database for low-latency synchronization</td></tr>
+              <tr><td>CNN generalization across lighting</td><td>Data augmentation (shear, zoom, shift) during training</td></tr>
+              <tr><td>Chart readability for low-literacy users</td><td>Color thresholds (green/orange/red) eliminating numeric interpretation</td></tr>
+              <tr><td>Potential class imbalance</td><td>Verified balanced distribution (100 records/class) pre-training</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h3><span class="subsection-number">10.2</span> Future Work</h3>
+          <div class="timeline">
+            <div class="timeline-item"><div class="timeline-tag">Planned</div><div class="timeline-title">IoT Sensor Integration</div><div class="timeline-desc">Real-time soil streams via Firebase, eliminating manual entry.</div></div>
+            <div class="timeline-item"><div class="timeline-tag">Planned</div><div class="timeline-title">Drone-Based Monitoring</div><div class="timeline-desc">Field-level disease assessment using aerial imagery and heatmaps.</div></div>
+            <div class="timeline-item"><div class="timeline-tag">Planned</div><div class="timeline-title">Interactive Dashboards</div><div class="timeline-desc">Drill-down filtering for historical trends and seasonal comparison.</div></div>
+            <div class="timeline-item"><div class="timeline-tag">Planned</div><div class="timeline-title">Voice Interface</div><div class="timeline-desc">Spoken query navigation for low-literacy farmers.</div></div>
+            <div class="timeline-item"><div class="timeline-tag">Planned</div><div class="timeline-title">Multi-language Localization</div><div class="timeline-desc">Tamil, Hindi, Telugu, and Kannada interface translation.</div></div>
+            <div class="timeline-item"><div class="timeline-tag">Planned</div><div class="timeline-title">Expanded CNN Coverage</div><div class="timeline-desc">Retraining on larger pathology datasets beyond 14 species.</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="research-footer">
+    <div class="research-footer-content">
+      <p><strong>References</strong></p>
+      <p>Chen, T., &amp; Guestrin, C. (2016). XGBoost: A scalable tree boosting system. <em>Proc. 22nd ACM SIGKDD</em>, 785-794.</p>
+      <p>Howard, A. G., et al. (2017). MobileNets: Efficient convolutional neural networks for mobile vision applications. <em>arXiv:1704.04861</em>.</p>
+      <p>Hughes, D., &amp; Salath&eacute;, M. (2015). An open access repository of images on plant health. <em>arXiv:1511.08060</em>.</p>
+      <p>Ingle, A. (2020). Crop recommendation dataset. <em>Kaggle</em>.</p>
+      <p style="margin-top:1rem; border-top:1px solid rgba(255,255,255,0.1); padding-top:1rem;">Karuniya Premnath &mdash; Khoury College of Computer Sciences, Northeastern University &mdash; EECE 5642: Data Visualization &mdash; April 2026</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
+    });
+  </script>
+</body>
+</html>
