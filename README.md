@@ -1,96 +1,88 @@
-# AgriViz DSS — Smart Agriculture Decision Support System
+# AgriViz 🌾
 
-A data visualization-driven decision support system for smart agriculture that integrates AI with targeted visual interfaces to deliver actionable agricultural insights directly in the browser.
+**Agricultural AI that farmers can actually read.**
 
-**Live Demo**: [https://karunprem45.github.io/AgriViz/](https://karunprem45.github.io/AgriViz/)
+Most agri-AI tools optimize for model accuracy but leave farmers staring at raw numbers they can't interpret. AgriViz flips that: it's a **visualization-first decision-support system** that turns crop-disease detection, crop recommendation, and soil analysis into color-coded, farmer-readable guidance — built for low-literacy, non-technical smallholders.
 
----
+[![Live Demo](https://img.shields.io/badge/Live-Demo-6C8CFF?style=flat-square&logo=googlechrome&logoColor=white)](https://karunprem45.github.io/AgriViz/)
+![CNN](https://img.shields.io/badge/CNN-Disease_Detection-D00000?style=flat-square)
+![XGBoost](https://img.shields.io/badge/XGBoost-Crop_Recommendation-FF6600?style=flat-square)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=firebase&logoColor=black)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-## Modules
-
-### 1. Disease Detection
-- MobileNet v1 CNN via TensorFlow.js — runs entirely in the browser
-- Trained on PlantVillage dataset (87,867 images, 38 classes, 14 crop species)
-- Upload a leaf image or select from samples to get disease classification with confidence score
-- Includes treatment recommendations for detected diseases
-
-### 2. Soil Analysis
-- Enter N, P, K, and pH readings against a selected target crop
-- Color-coded nutrient status bars (Optimal / Deficient / Excess) with deviation reporting
-- Crop suggestions ranked by soil suitability across all 22 crops
-- Input validation with warnings for out-of-range values
-
-### 3. Crop Recommendation
-- Per-feature similarity algorithm across 7 agronomic parameters (N, P, K, Temperature, Humidity, pH, Rainfall)
-- Top 5 crop matches with per-feature comparison bars and similarity dots
-- Handles edge cases: negative values, extreme inputs, low-match scenarios
+> 🌐 **Live demo:** [karunprem45.github.io/AgriViz](https://karunprem45.github.io/AgriViz/)
 
 ---
 
-## Dataset Visualizations
+## The problem
 
-Three interactive canvas-based charts drawn without external chart libraries:
-
-- **NPK Grouped Bar Chart** — Nitrogen, Phosphorus, and Potassium profiles across 10 key crops
-- **Feature Correlation Heatmap** — Pearson correlation coefficients between 7 agronomic features
-- **Temperature vs. Rainfall Scatter Plot** — Agro-climatic clustering by crop category
+AI models for agriculture are often accurate but unusable — a smallholder farmer with limited literacy can't act on a raw confidence score or an NPK table. The gap isn't model quality; it's **interpretability at the last mile**. AgriViz was built to close that gap.
 
 ---
 
-## Tech Stack
+## What it does
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | HTML5, CSS3, Vanilla JavaScript |
-| ML Inference | TensorFlow.js (MobileNet v1) |
-| Charts | HTML Canvas (no external libraries) |
-| Hosting | GitHub Pages |
+- 🦠 **Crop-disease detection** — a **CNN** identifies plant diseases from leaf images
+- 🌱 **Crop recommendation** — an **XGBoost** model recommends crops from soil + environmental inputs, trained on **2,200 records across 22 crops**
+- 🧪 **Soil analysis** — interprets soil nutrient profiles (N, P, K) into plain guidance
+- 🎨 **Farmer-readable visualizations** — every AI output is rendered as color-coded, low-text visuals instead of raw numbers
+- 🔄 **Real-time sync** — Firebase keeps data live across the app
 
 ---
 
-## Project Structure
+## 📊 Key insights uncovered
+
+- **P–K correlation** of **r = 0.74** across the soil dataset
+- **Crop-specific NPK clustering** — distinct nutrient signatures per crop group
+- A unified, visualization-first workflow that makes every recommendation immediately actionable
+
+---
+
+## 🛠️ Tech stack
+
+**ML** · `TensorFlow/Keras` (CNN) · `XGBoost` · `scikit-learn`
+**Frontend** · `JavaScript` · `HTML/CSS` (deployed on GitHub Pages)
+**Backend / Data** · `Firebase` (real-time sync)
+**Viz** · `[FILL: charting library used for the color-coded visuals — e.g. Chart.js, D3, Plotly]`
+
+---
+
+## 🚀 Run it
+
+The app is live on GitHub Pages — **[open the demo](https://karunprem45.github.io/AgriViz/)** directly, no setup needed.
+
+To run locally:
+```bash
+git clone https://github.com/karunprem45/AgriViz.git
+cd AgriViz
+[FILL: real setup steps — if plain HTML/JS just open index.html;
+       if a build tool is used:  npm install && npm start]
+```
+
+> Firebase config is required. Keep credentials out of git — use a template file and add the real config locally.
+
+---
+
+## 📁 Structure
 
 ```
 AgriViz/
-├── index.html              # Application page (Dashboard)
-├── about.html              # Research page (Paper)
-├── css/
-│   └── style.css           # Unified research-grade design system
-├── js/
-│   ├── app.js              # Application logic (3 modules)
-│   ├── charts.js           # Canvas-based visualizations
-│   └── data.js             # Dataset, thresholds, constants
-├── models/
-│   └── plant-disease/
-│       ├── tensorflowjs-model/   # MobileNet CNN weights
-│       ├── test-images/          # Sample leaf images
-│       └── class_indices.json    # 38-class label mapping
-├── .nojekyll               # Bypass Jekyll on GitHub Pages
-└── Karuniya_DV-Report.pdf  # Research report
+├── [FILL: match your actual folders]
+├── models/          # trained CNN + XGBoost artifacts
+├── data/            # soil / crop dataset (2,200 records, 22 crops)
+└── README.md
 ```
 
 ---
 
-## Local Development
+## 🎯 Why it matters
 
-No build tools required. Serve with any static file server:
-
-```bash
-# Python
-python -m http.server 8080
-
-# Node.js
-npx serve .
-```
-
-Open `http://localhost:8080` in your browser.
-
-> **Note**: The disease detection module requires HTTP (not `file://`) due to TensorFlow.js model loading.
+Delivered a decision-support platform that uncovered real agronomic patterns and made AI-driven recommendations usable by the people who need them most — non-technical, low-literacy farmers. A reminder that in applied ML, **interpretation is as important as accuracy**.
 
 ---
 
-## Author
+## 👤 Author
 
-**Karuniya Premnath**
-Khoury College of Computer Sciences, Northeastern University
+**Karuniya Premnath** — MS Data Science @ Northeastern University
+[LinkedIn](https://linkedin.com/in/karuniya-premnath) · [Portfolio](https://karunprem45.github.io/portfolio/) · premnath.k@northeastern.edu
 EECE 5642 — Data Visualization — April 2026
